@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saumeel Desai</title>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- styles -->
+    <link rel="stylesheet" href="styles/reset.css">
+    <!-- <link rel="stylesheet" href="styles/animated_background.css"> -->
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+
+<body>
+    <h1 id="banner"> Hello, my name is Saumeel Desai </h1>
+
+    <div id="bio">
+        <p id="bio-text">
+            Hi there! I'm glad you made it to my page.
+            <br>
+            I am a jack of all trades who loves to solve problems, work with people, and code.
+            I graduated from the University of Pennsylvania in 2019 with a BSE in Computer Science.
+            While I was in college, I spent a summer at AWS, where I worked on creating a solution for multi-region data
+            replication.
+            After I graduated, I spent a few years at Google working on backend product infrastructure for Google One.
+            <br>
+            Please reach out if you want to chat about working together.
+        </p>
+    </div>
+
+    <div id="main">
+        <div class="panel">
+            <img id="headshot" src="./assets/headshot.jpeg">
+        </div>
+        <div class="panel">
+            <div class="logo-container">
+                <img class="logo" src="./assets/email_icon.png">
+                <a class="logo-text" href="mailto:saumeelndesai@gmail.com">saumeelndesai@gmail.com</a>
+            </div>
+
+            <div class="logo-container">
+                <img class="logo" src="./assets/linkedin_icon.png">
+                <a class="logo-text" href="https://www.linkedin.com/in/saumeel-desai/">Saumeel Desai</a>
+            </div>
+
+            <div class="logo-container">
+                <img class="logo" src="./assets/github_icon.png">
+                <a class="logo-text" href="https://github.com/saumeeld">Projects</a>
+            </div>
+        </div>
+    </div>
+
+    <img id="celestialBody" src="./assets/sun.png" />
+    <img id="cloud1" src="./assets/cloud.png" />
+    <img id="cloud2" src="./assets/cloud.png" />
+    <img id="cloud3" src="./assets/cloud.png" />
+
+    <script>
+        function animateClouds() {
+            const clouds = ['cloud1', 'cloud2', 'cloud3'];
+            clouds.forEach(cloudId => {
+                let cloud = document.getElementById(cloudId);
+                let cloudWidth = cloud.offsetWidth;
+                let leftPos = parseInt(getComputedStyle(cloud).left);
+
+                leftPos = (leftPos + 1) % (window.innerWidth + cloudWidth);
+
+                // When the cloud moves off the right, it starts coming in from the left
+                if (leftPos > window.innerWidth) {
+                    cloud.style.left = `${leftPos - window.innerWidth - cloudWidth}px`;
+                } else {
+                    cloud.style.left = `${leftPos}px`;
+                }
+            });
+        }
+
+        class CelestialBody {
+            constructor(celestialBodyId) {
+                this.celestialBody = document.getElementById(celestialBodyId);
+                this.initialX = parseInt(getComputedStyle(this.celestialBody).left);
+                this.initialY = parseInt(getComputedStyle(this.celestialBody).bottom);
+                this.height = parseInt(getComputedStyle(this.celestialBody).height);
+                this.width = parseInt(getComputedStyle(this.celestialBody).width);
+                this.x = 0;
+                this.y = 0
+                this.initialSkyColor = { H: 180, S: 73, L: 48 };
+            }
+
+            animate(percentCompletion) {
+                if (this.x > Math.PI) return;
+
+                // Update x and y to move along sine function
+                this.x = percentCompletion ? Math.PI * percentCompletion / 100 : this.x + .0005;
+                this.y = Math.sin(this.x);
+
+                if (this.x > Math.PI / 2) { // 
+                    this.celestialBody.src = "./assets/moon.png";
+                }
+                if (this.x < Math.PI / 2) { // 
+                    this.celestialBody.src = "./assets/sun.png";
+                }
+
+                // Scale x and y of the sine function to the window size
+                const scaledX = (this.x / Math.PI) * (window.innerWidth - this.width);
+                const scaledY = this.y * (window.innerHeight); // 
+
+                this.celestialBody.style.left = `${(this.initialX + scaledX) % window.innerWidth}px`;
+                this.celestialBody.style.bottom = `${(this.initialY + scaledY) % window.innerWidth}px`;
+
+                this.darkenSky();
+            }
+
+            darkenSky() {
+                let darkness = this.x / (Math.PI);
+                const MAX_DARKNESS = 80;
+                let skyDarknessIncrement = (MAX_DARKNESS - this.initialSkyColor.L) * darkness;
+                document.body.style.backgroundColor = `hsl(${this.initialSkyColor.H}, ${this.initialSkyColor.S}%, ${this.initialSkyColor.L - skyDarknessIncrement}%)`;
+            }
+        }
+
+        const celestialBody = new CelestialBody("celestialBody");
+
+
+        setInterval(animateClouds, 100);
+        setInterval(() => celestialBody.animate(), 16);
+
+        // let scrollProgress = 0;
+        // window.addEventListener('wheel', function (event) {
+        //     scrollProgress += event.deltaY * .01;
+
+        //     // Ensure scrollProgress stays within 0% to 100%
+        //     scrollProgress = Math.max(0, Math.min(100, scrollProgress));
+
+        //     console.log("Scroll progress:" + scrollProgress);
+
+        //     // Your scrolling logic here
+        //     // You can use scrollProgress to animate objects based on the scrolling progress
+        //     celestialBody.animate(scrollProgress);
+        // });
+
+
+    </script>
+
+</body>
+
+</html>

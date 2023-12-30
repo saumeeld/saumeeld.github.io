@@ -1,0 +1,127 @@
+/*STAGED CHANGES ABOVE HERE*/
+
+body {
+    background-color: #21D5D8;
+    font-family: 'Roboto Mono', monospace;
+    color: black;
+}
+
+a {
+    color: #218DD8;
+    text-decoration: none;
+}
+
+#banner {
+    margin: 3vh 0vh;
+    font-family: 'Pacifico', cursive;
+    min-height: 10vh;
+    font-size: 4.5em;
+    text-align: center;
+}
+
+#bio {
+    padding: 3vh 2vw;
+    margin: 3vh 15vw;
+    margin-bottom: 0vh;
+    border-radius: 30px;
+    text-align: center;
+    overflow: scroll;
+    background-color: #FFF8DC;
+}
+
+#main {
+    display: flex;
+    height: 60vh;
+    margin: 5vh 10vw;
+    margin-top: 2.5vh;
+}
+
+.panel {
+    padding: 40px;
+    flex: 50%;
+}
+
+#headshot {
+    display: block;
+    margin: auto;
+    min-width: 200px;
+    min-height: auto;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    max-height: auto;
+    border-radius: 10%;
+}
+
+
+
+.logo-container {
+    margin: 5% 0;
+    padding: 1.5rem;
+    background-color: #FFF8DC;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.logo {
+    width: 10%;
+    height: 10%;
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.logo-text {
+    font-size: 1.5vw;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+@media (max-width: 900px) {
+    #main {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #headshot {
+        margin: auto;
+    }
+
+    .logo-text {
+        font-size: clamp(1em, .5em + 1.5vw, 2em);
+    }
+}
+
+#celestialBody {
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    bottom: 0vh;
+    left: 0vw;
+    z-index: -1;
+}
+
+#cloud1 {
+    position: absolute;
+    top: 0vh;
+    left: 0vw;
+    z-index: -1;
+}
+
+#cloud2 {
+    position: absolute;
+    height: 250;
+    width: 250px;
+    top: 65vh;
+    left: 40vw;
+    z-index: -1;
+}
+
+
+#cloud3 {
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    top: 25vh;
+    left: 60vw;
+    z-index: -1;
+}

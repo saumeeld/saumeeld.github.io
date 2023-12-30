@@ -1,0 +1,8 @@
+- Make clouds wrap properly
+- Dynamic text color when clouds move over text? / better text color
+
+
+- Understand how the flex property works. 
+    - Why does the panel with text stay the same width, while the image panel shrinks?
+- Consider putting bio in right panel and place icon links at the bottom of bio
+
