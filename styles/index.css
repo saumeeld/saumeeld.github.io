@@ -12,7 +12,7 @@ a {
 }
 
 #banner {
-    margin: 3vh 0vh;
+    margin: 3vh 1rem;
     font-family: 'Pacifico', cursive;
     min-height: 10vh;
     font-size: 4.5em;
@@ -37,7 +37,7 @@ a {
 }
 
 .panel {
-    padding: 40px;
+    padding: 1rem;
     flex: 50%;
 }
 
@@ -46,17 +46,16 @@ a {
     margin: auto;
     min-width: 200px;
     min-height: auto;
-    height: 100%;
-    width: auto;
+    height: auto;
+    width: 55%;
     max-width: 100%;
     max-height: auto;
     border-radius: 10%;
 }
 
-
-
 .logo-container {
     margin: 5% 0;
+    width: 75%;
     padding: 1.5rem;
     background-color: #FFF8DC;
     border-radius: 30px;
@@ -77,6 +76,11 @@ a {
 }
 
 @media (max-width: 900px) {
+
+    #bio {
+        margin: 3vh 2rem;
+    }
+
     #main {
         flex-direction: column;
         height: auto;
@@ -84,6 +88,10 @@ a {
 
     #headshot {
         margin: auto;
+    }    
+
+    .logo-container {
+        margin: 5% auto;
     }
 
     .logo-text {
@@ -92,8 +100,6 @@ a {
 }
 
 #celestialBody {
-    height: 300px;
-    width: 300px;
     position: absolute;
     bottom: 0vh;
     left: 0vw;
@@ -109,19 +115,10 @@ a {
 
 #cloud2 {
     position: absolute;
-    height: 250;
-    width: 250px;
-    top: 65vh;
-    left: 40vw;
     z-index: -1;
 }
 
-
 #cloud3 {
     position: absolute;
-    height: 300px;
-    width: 300px;
-    top: 25vh;
-    left: 60vw;
     z-index: -1;
 }

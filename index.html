@@ -60,37 +60,34 @@
         </div>
     </div>
 
-    <img id="celestialBody" src="./assets/sun.png" />
+    
     <img id="cloud1" src="./assets/cloud.png" />
     <img id="cloud2" src="./assets/cloud.png" />
     <img id="cloud3" src="./assets/cloud.png" />
 
+    <img id="celestialBody" src="./assets/sun.png" />
+
+
+
     <script>
-        function animateClouds() {
-            const clouds = ['cloud1', 'cloud2', 'cloud3'];
-            clouds.forEach(cloudId => {
-                let cloud = document.getElementById(cloudId);
-                let cloudWidth = cloud.offsetWidth;
-                let leftPos = parseInt(getComputedStyle(cloud).left);
+        let deviceWidth = window.innerWidth;
+        let deviceHeight = window.innerHeight;
 
-                leftPos = (leftPos + 1) % (window.innerWidth + cloudWidth);
+        const CELESTIAL_BODY = "celestialBody";
+        const CLOUDS = ['cloud1', 'cloud2', 'cloud3'];
 
-                // When the cloud moves off the right, it starts coming in from the left
-                if (leftPos > window.innerWidth) {
-                    cloud.style.left = `${leftPos - window.innerWidth - cloudWidth}px`;
-                } else {
-                    cloud.style.left = `${leftPos}px`;
-                }
-            });
-        }
 
         class CelestialBody {
-            constructor(celestialBodyId) {
+            constructor(celestialBodyId, deviceWidth, deviceHeight) {
                 this.celestialBody = document.getElementById(celestialBodyId);
+                this.celestialBody.style.width = `${deviceWidth * .22}px`;
+                this.celestialBody.style.height = `${deviceHeight * .22}px`;
+                this.celestialBody.style.bottom = `0px`;
+                this.celestialBody.style.left = `0px`;
+                this.width = deviceWidth * .2;
+                this.height = deviceHeight * .2;
                 this.initialX = parseInt(getComputedStyle(this.celestialBody).left);
                 this.initialY = parseInt(getComputedStyle(this.celestialBody).bottom);
-                this.height = parseInt(getComputedStyle(this.celestialBody).height);
-                this.width = parseInt(getComputedStyle(this.celestialBody).width);
                 this.x = 0;
                 this.y = 0
                 this.initialSkyColor = { H: 180, S: 73, L: 48 };
@@ -111,11 +108,11 @@
                 }
 
                 // Scale x and y of the sine function to the window size
-                const scaledX = (this.x / Math.PI) * (window.innerWidth - this.width);
-                const scaledY = this.y * (window.innerHeight); // 
+                const scaledX = (this.x / Math.PI) * (deviceWidth - this.width);
+                const scaledY = this.y * (deviceHeight); // 
 
-                this.celestialBody.style.left = `${(this.initialX + scaledX) % window.innerWidth}px`;
-                this.celestialBody.style.bottom = `${(this.initialY + scaledY) % window.innerWidth}px`;
+                this.celestialBody.style.left = `${(this.initialX + scaledX) % deviceWidth}px`;
+                this.celestialBody.style.bottom = `${(this.initialY + scaledY) % deviceHeight}px`;
 
                 this.darkenSky();
             }
@@ -128,11 +125,70 @@
             }
         }
 
-        const celestialBody = new CelestialBody("celestialBody");
+        let celestialBody = new CelestialBody(CELESTIAL_BODY, deviceWidth, deviceHeight);
 
 
+        function positionBackgroundObjects() {
+            deviceWidth = window.innerWidth;
+            deviceHeight = window.innerHeight;
+
+
+            // console.log("Positioning background images");
+            // console.log(`Device Width : ${deviceWidth}`);
+            // console.log(`Device Height : ${deviceHeight}`);
+            celestialBody = new CelestialBody(CELESTIAL_BODY, deviceWidth, deviceHeight);
+
+            let cloud;
+
+            cloud = document.getElementById(CLOUDS[0]);
+            cloud.style.width = `${deviceWidth * .4}px`;
+            cloud.style.height = `${deviceHeight * .4}px`;
+            cloud.style.top = `${deviceHeight * 0}px`;
+            cloud.style.left = `${deviceWidth * 0}px`;
+
+            cloud = document.getElementById(CLOUDS[1]);
+            cloud.style.width = `${deviceWidth * .25}px`;
+            cloud.style.height = `${deviceHeight * .25}px`;
+            cloud.style.top = `${deviceHeight * .65}px`;
+            cloud.style.left = `${deviceWidth * .4}px`;
+
+            cloud = document.getElementById(CLOUDS[2]);
+            cloud.style.width = `${deviceWidth * .3}px`;
+            cloud.style.height = `${deviceHeight * .3}px`;
+            cloud.style.top = `${deviceHeight * .3}px`;
+            cloud.style.left = `${deviceWidth * .6}px`;
+        }
+
+
+
+        function animateClouds() {
+            console.log("Trying to animate");
+            CLOUDS.forEach(cloudId => {
+                let cloud = document.getElementById(cloudId);
+                let cloudWidth = cloud.offsetWidth;
+                let leftPos = parseInt(getComputedStyle(cloud).left);
+
+                leftPos = (leftPos + 1) % (deviceWidth + cloudWidth);
+
+                // When the cloud moves off the right, it starts coming in from the left
+                if (leftPos > deviceWidth) {
+                    cloud.style.left = `${leftPos - deviceWidth - cloudWidth}px`;
+                } else {
+                    cloud.style.left = `${leftPos}px`;
+                }
+            });
+        }
+
+        positionBackgroundObjects();
         setInterval(animateClouds, 100);
+        window.addEventListener("resize", (event) => {
+            positionBackgroundObjects();
+            console.log("resisizing");
+        });
+
+       
         setInterval(() => celestialBody.animate(), 16);
+
 
         // let scrollProgress = 0;
         // window.addEventListener('wheel', function (event) {
