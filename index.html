@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    
+
     <img id="cloud1" src="./assets/cloud.png" />
     <img id="cloud2" src="./assets/cloud.png" />
     <img id="cloud3" src="./assets/cloud.png" />
@@ -80,20 +80,22 @@
         class CelestialBody {
             constructor(celestialBodyId, deviceWidth, deviceHeight) {
                 this.celestialBody = document.getElementById(celestialBodyId);
-                this.celestialBody.style.width = `${deviceWidth * .22}px`;
-                this.celestialBody.style.height = `${deviceHeight * .22}px`;
+                this.celestialBody.style.width = `${deviceWidth * .18}px`;
+                this.celestialBody.style.height = this.celestialBody.style.width;
                 this.celestialBody.style.bottom = `0px`;
                 this.celestialBody.style.left = `0px`;
-                this.width = deviceWidth * .2;
-                this.height = deviceHeight * .2;
+                this.width = deviceWidth * .18;
+                this.height = this.width;
                 this.initialX = parseInt(getComputedStyle(this.celestialBody).left);
                 this.initialY = parseInt(getComputedStyle(this.celestialBody).bottom);
                 this.x = 0;
                 this.y = 0
                 this.initialSkyColor = { H: 180, S: 73, L: 48 };
+                this.visible = true;
             }
 
             animate(percentCompletion) {
+                if (!this.visible) return;
                 if (this.x > Math.PI) return;
 
                 // Update x and y to move along sine function
@@ -123,19 +125,21 @@
                 let skyDarknessIncrement = (MAX_DARKNESS - this.initialSkyColor.L) * darkness;
                 document.body.style.backgroundColor = `hsl(${this.initialSkyColor.H}, ${this.initialSkyColor.S}%, ${this.initialSkyColor.L - skyDarknessIncrement}%)`;
             }
+
+            setVisibility(visibility) {
+                console.log(`Visibility is ${visibility}`)
+                this.visible = visibility;
+                this.celestialBody.style.display = this.visible ? "" : "none";
+            }
         }
 
         let celestialBody = new CelestialBody(CELESTIAL_BODY, deviceWidth, deviceHeight);
 
 
-        function positionBackgroundObjects() {
+        function setupBackgroundAnimation() {
             deviceWidth = window.innerWidth;
             deviceHeight = window.innerHeight;
 
-
-            // console.log("Positioning background images");
-            // console.log(`Device Width : ${deviceWidth}`);
-            // console.log(`Device Height : ${deviceHeight}`);
             celestialBody = new CelestialBody(CELESTIAL_BODY, deviceWidth, deviceHeight);
 
             let cloud;
@@ -157,12 +161,12 @@
             cloud.style.height = `${deviceHeight * .3}px`;
             cloud.style.top = `${deviceHeight * .3}px`;
             cloud.style.left = `${deviceWidth * .6}px`;
+
+            updateBackgroundVisibility();
         }
 
 
-
         function animateClouds() {
-            console.log("Trying to animate");
             CLOUDS.forEach(cloudId => {
                 let cloud = document.getElementById(cloudId);
                 let cloudWidth = cloud.offsetWidth;
@@ -179,31 +183,28 @@
             });
         }
 
-        positionBackgroundObjects();
-        setInterval(animateClouds, 100);
-        window.addEventListener("resize", (event) => {
-            positionBackgroundObjects();
-            console.log("resisizing");
-        });
+        function updateBackgroundVisibility() {
+            let showBackground = true;
+            if (window.innerWidth < 768 || window.innerHeight < 600) {
+                showBackground = false;
+            }
 
-       
+            CLOUDS.forEach(cloudId => {
+                let cloud = document.getElementById(cloudId);
+                cloud.style.display = showBackground ? "" : "none";
+            });
+
+            celestialBody.setVisibility(showBackground);
+        }
+
+        
+        setupBackgroundAnimation();
+        setInterval(animateClouds, 100);
         setInterval(() => celestialBody.animate(), 16);
 
-
-        // let scrollProgress = 0;
-        // window.addEventListener('wheel', function (event) {
-        //     scrollProgress += event.deltaY * .01;
-
-        //     // Ensure scrollProgress stays within 0% to 100%
-        //     scrollProgress = Math.max(0, Math.min(100, scrollProgress));
-
-        //     console.log("Scroll progress:" + scrollProgress);
-
-        //     // Your scrolling logic here
-        //     // You can use scrollProgress to animate objects based on the scrolling progress
-        //     celestialBody.animate(scrollProgress);
-        // });
-
+        window.addEventListener("resize", (event) => {
+            setupBackgroundAnimation();
+        });
 
     </script>
 
