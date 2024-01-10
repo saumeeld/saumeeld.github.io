@@ -56,32 +56,28 @@ a {
 }
 
 .logo-container {
+    display: flex;
+    align-items: center;
     margin: 5% 0;
     width: 75%;
     padding: 1.5rem;
     background-color: #FFF8DC;
     border-radius: 30px;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .logo {
     width: 10%;
     height: 10%;
     padding: 5px;
-    vertical-align: middle;
 }
 
 .logo-text {
     font-size: 1.5vw;
-    white-space: nowrap;
-    vertical-align: middle;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
 }
 
-.logo, .logo-text {
-    display: inline-block; /* or 'inline' */
-    vertical-align: middle; /* To align them vertically */
-}
 
 
 @media (max-width: 767px) {
